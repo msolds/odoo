@@ -1,4 +1,6 @@
 # Entorno para probar la instalación de Odoo en un contenedor
+## 1 Iniciar sesión en [GitHub](https://github.com/)
+## 2 Crear un Reopositorio uevo 
 ```yaml
 # compose.yml
 services:
