@@ -1,4 +1,6 @@
 # Entorno para probar la instalación de Odoo en un contenedor
+```yaml
+# compose.yml
 services:
   db:
     container_name: postgres
@@ -35,4 +37,4 @@ services:
       - POSTGRES_DB=postgres
       - USER=odoo
       - PASSWORD=odoo
-
+```
