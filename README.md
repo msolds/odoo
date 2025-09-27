@@ -1,6 +1,7 @@
 # Entorno para probar la instalación de Odoo en un contenedor
-## 1 Iniciar sesión en [GitHub](https://github.com/)
-## 2 Crear un Repositorio uevo 
+## 1. Iniciar sesión en [GitHub](https://github.com/)
+## 2. Crear un Repositorio nuevo 
+## 3. Añadir un fichero docker-compose.yml con el siguiente contenido
 ```yaml
 # compose.yml
 services:
@@ -43,3 +44,8 @@ services:
       - USER=odoo
       - PASSWORD=odoo
       - POSTGRES_DB=postgres
+```
+## 4. Ejectar el comando
+``` bash
+docker compose up -d
+```
