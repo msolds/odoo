@@ -1,16 +1,13 @@
 services:
   db:
     container_name: postgres
-    image: postgres:16
-    volumes:
-      # Volumen nombrado para la base de datos
-      - postgres_data:/var/lib/postgresql/data
+    image: postgres:16    
     environment:
       - POSTGRES_DB=postgres
-      - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
-    ports:
-      - "5432:5432"
+      - POSTGRES_PASSWORD=odoo
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   odoo:
     container_name: odoo
@@ -19,20 +16,14 @@ services:
       - "8069:8069"
     depends_on:
       - db
-    volumes:
-      # Volumen nombrado para los datos de Odoo (sesiones, adjuntos, filestore) gestionado por Docker
-      - odoo_data:/var/lib/odoo
-      
-      # Volumen local para tus módulos personalizados 
-      - ./odoo/custom_addons:/mnt/extra-addons
-          
     environment:
       - HOST=db
       - USER=odoo
-      - PASSWORD=odoo
-      - POSTGRES_DB=postgres
+      - PASSWORD=odoo      
+    volumes:
+      - odoo_data:/var/lib/odoo      
+      - ./odoo/custom_addons:/mnt/extra-addons
 
-# Declaración de los volúmenes nombrados
 volumes:
   postgres_data:
   odoo_data:
