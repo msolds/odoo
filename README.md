@@ -4,47 +4,35 @@
 ## 3. Crear un codespace 
 ## 4. Añadir un fichero docker-compose.yml con el siguiente contenido
 ```yaml
-# compose.yml
 services:
   db:
     container_name: postgres
-    image: postgres:15
-    volumes:
-      - ./odoo/postgres:/var/lib/postgresql/data
+    image: postgres:16    
     environment:
       - POSTGRES_DB=postgres
-      - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
-    ports:
-      - "5432:5432"
-
-  adminer:
-    container_name: adminer
-    image: adminer
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
+      - POSTGRES_PASSWORD=odoo
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   odoo:
     container_name: odoo
-    user: 1000:1001
-    image: odoo:18
+    image: odoo:19
     ports:
       - "8069:8069"
     depends_on:
       - db
-    volumes:
-      - ./odoo/config:/etc/odoo
-      - ./odoo/addons:/mnt/extra-addons
-      - ./odoo/custom_addons:/mnt/custom_addons
-      - ./odoo/odoo-data:/var/lib/odoo
-      - ./odoo/customs:/customs
     environment:
       - HOST=db
       - USER=odoo
-      - PASSWORD=odoo
-      - POSTGRES_DB=postgres
+      - PASSWORD=odoo      
+    volumes:
+      - odoo_data:/var/lib/odoo      
+      - ./odoo/custom_addons:/mnt/extra-addons
+
+volumes:
+  postgres_data:
+  odoo_data:
 ```
 ## 5. Ejectar el comando
 ``` bash
