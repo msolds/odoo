@@ -1,0 +1,41 @@
+```yaml
+services:
+  db:
+    container_name: postgres
+    image: postgres:16
+    network_mode: host
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -p 5432 -U odoo -d postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+  odoo:
+    container_name: odoo
+    image: odoo:19
+    network_mode: host
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      HOST: 127.0.0.1
+      PORT: 5432
+      USER: odoo
+      PASSWORD: odoo
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - ./odoo/custom_addons:/mnt/extra-addons
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  odoo_data:
+```
